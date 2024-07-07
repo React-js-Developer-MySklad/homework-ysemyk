@@ -30,7 +30,6 @@ footer {
 
 .header-left {
     width: 156px;
-    flex: border-box;
 }
 
 .header-middle {
@@ -39,7 +38,6 @@ footer {
 
 .header-right {
     width: 126px;
-    flex: border-box;
     height: 35px;
     margin: auto;
     padding: 5px;
