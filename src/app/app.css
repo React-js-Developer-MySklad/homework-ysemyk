@@ -9,19 +9,17 @@ body {
     margin: auto;
 }
 
-header {
-    margin-bottom: 30px;
-    margin-top: 10px;
+.page-header {
     height: 70px;
     display: flex;
     flex-direction: row;
 }
 
-main {
+.page-main {
     min-height: 500px;
 }
 
-footer {
+.page-footer {
     margin-top: auto;
     height: 25px;
     text-align: center;
