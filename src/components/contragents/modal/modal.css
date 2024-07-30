@@ -1,0 +1,55 @@
+.modal-header {
+    margin-top:-30px;
+}
+
+.field-label-email {
+    font-size: 12px;
+    color: gray;
+}
+
+.field-label-pass {
+    font-size: 12px;
+    color: black;
+}
+
+.modal-container {
+    width: 400px;
+    margin: auto;
+}
+
+.save-button {
+    border: #7c7c7c 1px solid;
+    width: 49%;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    display: inline;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.close-button {
+    border: #7c7c7c 1px solid;
+    background-color: #ff7a87;
+    width: 49%;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    display: inline;
+    border-radius: 0px 10px 10px 0px;
+}
+
+.close-button:hover {
+    background-color: #ff4b5a;
+    cursor: pointer;
+}
+
+.x-button {
+    border: 1px solid;
+}
+
+.invalid-field {
+    background-color: #e9d3d3;
+    border: solid 1px red;
+}
+
+.id-field-disabled {
+    background-color: #e1dede
+}
