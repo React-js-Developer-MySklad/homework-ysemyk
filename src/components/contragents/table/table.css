@@ -1,0 +1,29 @@
+.delete {
+    width: 80px;
+    height: 25px;
+    border-radius: 5px;
+    padding: 2px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+    background-color: #ffcad1;
+    color: #4b1d1e;
+}
+
+.delete:hover {
+    background-color: #ff7a87;
+    cursor: pointer;
+}
+
+.table-header {
+    background-color: #e3e3e3;
+    border: 1px solid;
+}
+
+.content-row {
+    background-color: #ffffff;
+}
+
+.content-row:hover {
+    background-color: #dedede;
+}
