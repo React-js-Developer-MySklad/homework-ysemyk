@@ -1,3 +1,16 @@
+.dimensions {
+    width: 1000px;
+    margin: auto;
+}
+
+.headers_decor {
+    @apply px-6 py-3;
+}
+
+.rows_decor {
+    @apply px-6 py-4;
+}
+
 .delete {
     width: 80px;
     height: 25px;
@@ -15,15 +28,15 @@
     cursor: pointer;
 }
 
-.table-header {
+.table_header {
     background-color: #e3e3e3;
     border: 1px solid;
 }
 
-.content-row {
+.content_row {
     background-color: #ffffff;
 }
 
-.content-row:hover {
+.content_row:hover {
     background-color: #dedede;
 }
