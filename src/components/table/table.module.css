@@ -28,9 +28,17 @@
     cursor: pointer;
 }
 
+.table_common {
+    @apply w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400;
+}
+
 .table_header {
     background-color: #e3e3e3;
     border: 1px solid;
+}
+
+.table_head {
+    @apply text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400;
 }
 
 .content_row {

@@ -1,11 +1,16 @@
 import {render} from "@testing-library/react";
-import Table from './table';
-
+import {Agent, Table} from './table';
 
 
 describe('table', () => {
 
-    const {getByText} = render(<Table/>);
+    const editEntry = jest.fn();
+    const removeEntry = jest.fn();
+    const agents: Agent[] = [
+        { id: '10', name: 'first', inn: '10', address: 'address10', kpp: '10' },
+        { id: '20', name: 'second', inn: '20', address: 'address20', kpp: '20' },
+    ]
+    const {getByText} = render(<Table editEntry={editEntry} removeEntry={removeEntry} data={agents}/>);
 
     it('should render table headers and 4 users by default', () => {
         expect(getByText("ID")).toBeTruthy();
@@ -13,9 +18,7 @@ describe('table', () => {
         expect(getByText("Инн")).toBeTruthy();
         expect(getByText("Адрес")).toBeTruthy();
         expect(getByText("КПП")).toBeTruthy();
-        expect(getByText("Romashka")).toBeTruthy();
-        expect(getByText("Ivanov P.A.")).toBeTruthy();
-        expect(getByText("Spring Co")).toBeTruthy();
-        expect(getByText("Petrov the Petr")).toBeTruthy();
+        expect(getByText("first")).toBeTruthy();
+        expect(getByText("second")).toBeTruthy();
     });
 })
