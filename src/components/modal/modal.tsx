@@ -1,43 +1,48 @@
 import * as css from './modal.module.css'
 import React, {FormEvent, useEffect, useState} from "react";
-import {Agent} from "../table/table";
+import {useEditor} from "../../hooks/useEditor/editor.hook";
+import {useCounteragents} from "../../hooks/useCounteragents/counteragents.hook";
 
-type Props = {
-    modalShown: boolean;
-    closeModal: () => void;
-    editorData?: Agent;
-    createAgent: (agent: Agent) => void;
-    editAgent: (agent: Agent) => void;
-    selectedMode: string;
-}
 
-export const Modal = ({modalShown, closeModal, editorData, createAgent, editAgent, selectedMode}: Props) => {
+export const Modal = () => {
+    const { agentForEditing, modalShown,  closeWindow, editMode } = useEditor();
+    const { addNewAgent, updateExistingAgent, counteragents } = useCounteragents();
+
 
     let [id, setId] = useState('');
-    let [name, setName] = useState(editorData ? editorData.name : '');
-    let [inn, setInn] = useState(editorData ? editorData.inn : '');
-    let [address, setAddress] = useState(editorData ? editorData.address : '');
-    let [kpp, setKpp] = useState(editorData ? editorData.kpp : '');
+    let [name, setName] = useState('');
+    let [inn, setInn] = useState('');
+    let [address, setAddress] = useState('');
+    let [kpp, setKpp] = useState('');
     let [mode, setMode] = useState('Создать запись');
 
 
     useEffect(()=> {
-        setId(editorData.id);
-        setName(editorData.name);
-        setInn(editorData.inn);
-        setAddress(editorData.address);
-        setKpp(editorData.kpp);
-        setMode(selectedMode);
-    }, [editorData]);
+        setMode(editMode);
+    }, [editMode]);
 
+
+    useEffect(()=> {
+        setId(editMode == 'Создать запись' ? getLastId().toString() : agentForEditing.id);
+        setName(agentForEditing.name);
+        setInn(agentForEditing.inn);
+        setAddress(agentForEditing.address);
+        setKpp(agentForEditing.kpp);
+    }, [agentForEditing]);
+
+    const getLastId = () => {
+        const ids: number[] = counteragents.map((c) => Number(c.id));
+        return ids.length>0 ? Math.max(...ids)+1 : 1;
+    }
 
     const onFormSubmit = (e: FormEvent) => {
         let agent = {id: id, name: name, inn: inn, address: address, kpp: kpp};
         if (mode == 'Создать запись') {
-            createAgent(agent);
+            addNewAgent(agent);
         } else {
-            editAgent(agent);
+            updateExistingAgent(agent);
         }
+        closeWindow();
         e.preventDefault();
     }
 
@@ -50,7 +55,7 @@ export const Modal = ({modalShown, closeModal, editorData, createAgent, editAgen
                 <div className={css.content}>
                     {/* Modal header */}
                     <div className={css.header}>
-                        <button type="button" onClick={closeModal}
+                        <button type="button" onClick={closeWindow}
                                 className={css.x_button}>
                             <svg className={css.x_button_img} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                  viewBox="0 0 14 14">
@@ -108,7 +113,7 @@ export const Modal = ({modalShown, closeModal, editorData, createAgent, editAgen
                             <button className={css.save_button} type="submit">
                                 Сохранить
                             </button>
-                            <div  onClick={closeModal} className={css.close_button}>
+                            <div  onClick={closeWindow} className={css.close_button}>
                                 Отменить
                             </div>
                         </form>

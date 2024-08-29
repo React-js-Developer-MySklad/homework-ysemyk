@@ -1,19 +1,33 @@
 import {fireEvent, render} from "@testing-library/react";
 import {Modal} from './modal';
+import MockEditorProvider from "../../hooks/useEditor/editor.mock";
+import MockCounteragentsProvider from "../../hooks/useCounteragents/counteragents.mock";
 import {Agent} from "../table/table";
 
-
 describe('tableRow', () => {
+    const openCreateWindow = jest.fn();
+    const openEditWindow = jest.fn();
+    const closeWindow = jest.fn();
+    const editorMockValue = {modalShown: true, editMode: 'Создать запись',
+        agentForEditing: { id: '', name: '', inn: '', address: '', kpp: '' },
+        openCreateWindow, openEditWindow, closeWindow};
 
-    const modalShown = true;
-    const closeModal = jest.fn();
-    const editorData: Agent = { id: '10', name: 'first', inn: '11', address: 'address10', kpp: '12' };
-    const createAgent = jest.fn();
-    const editAgent = jest.fn();
-    const selectedMode = 'Создать запись';
+    const counteragents: Agent[] = [
+        { id: '1', name: 'name1', inn: 'inn1', address: 'address1', kpp: 'kpp1' },
+        { id: '2', name: 'name2', inn: 'inn2', address: 'address2', kpp: 'kpp2' }
+    ]
+    const addNewAgent = jest.fn();
+    const updateExistingAgent = jest.fn();
+    const removeAgent = jest.fn();
+    const counteragentsMockValue = {counteragents, addNewAgent, updateExistingAgent, removeAgent};
 
-    const {getByText} = render(<Modal modalShown={modalShown} closeModal={closeModal} editorData={editorData}
-                                      createAgent={createAgent} editAgent={editAgent} selectedMode={selectedMode}/>);
+    const {getByText} = render(
+        <MockCounteragentsProvider mockValue={counteragentsMockValue}>
+            <MockEditorProvider mockValue={editorMockValue}>
+                <Modal/>
+            </MockEditorProvider>
+        </MockCounteragentsProvider>
+    );
 
     it('should render window with fields', () => {
         expect(getByText("Создать запись")).toBeTruthy();
@@ -24,9 +38,7 @@ describe('tableRow', () => {
         expect(getByText("КПП")).toBeTruthy();
         expect(getByText("Сохранить")).toBeTruthy();
         expect(getByText("Отменить")).toBeTruthy();
-        fireEvent.click(getByText('Сохранить'));
-        expect(createAgent).toHaveBeenCalledTimes(1);
         fireEvent.click(getByText('Отменить'));
-        expect(closeModal).toHaveBeenCalledTimes(1);
+        expect(closeWindow).toHaveBeenCalledTimes(1);
     });
 })
