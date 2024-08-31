@@ -1,6 +1,8 @@
 import * as css from './table.module.css'
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {TableRow} from './tableRow';
+import {useCounteragents} from "../../hooks/useCounteragents/counteragents.hook";
+import {useEditor} from "../../hooks/useEditor/editor.hook";
 
 export type Agent = {
     id: string;
@@ -10,22 +12,12 @@ export type Agent = {
     kpp: string;
 }
 
-type Props = {
-    editEntry: (agent: Agent) => void;
-    removeEntry: (agent: Agent) => void;
-    data: Agent[];
-}
 
 const headerNames = ['ID','Наименование', 'Инн', 'Адрес', 'КПП', ''];
 
-export const Table = ({editEntry, removeEntry, data}: Props) => {
-
-    const [counteragents, setCounteragents] = useState([]);
-
-
-    useEffect(()=> {
-        setCounteragents(data);
-    }, [data]);
+export const Table = () => {
+    const { counteragents, removeAgent } = useCounteragents();
+    const { openEditWindow } = useEditor();
 
 
     function renderTableHeaders() {
@@ -46,7 +38,7 @@ export const Table = ({editEntry, removeEntry, data}: Props) => {
                 <tbody>
                 {renderTableHeaders()}
                 {counteragents.map(agent=>
-                    <TableRow key={agent.id} agent={agent} onEdit={() => editEntry(agent)} onDelete={() => removeEntry(agent)}/>)
+                    <TableRow key={agent.id} agent={agent} onEdit={() => openEditWindow(agent)} onDelete={() => removeAgent(agent)}/>)
                 }
                 </tbody>
             </table>
