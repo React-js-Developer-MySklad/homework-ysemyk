@@ -1,0 +1,50 @@
+.dimensions {
+    width: 1000px;
+    margin: auto;
+}
+
+.headers_decor {
+    @apply px-6 py-3;
+}
+
+.rows_decor {
+    @apply px-6 py-4;
+}
+
+.delete {
+    width: 80px;
+    height: 25px;
+    border-radius: 5px;
+    padding: 2px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+    background-color: #ffcad1;
+    color: #4b1d1e;
+}
+
+.delete:hover {
+    background-color: #ff7a87;
+    cursor: pointer;
+}
+
+.table_common {
+    @apply w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400;
+}
+
+.table_header {
+    background-color: #e3e3e3;
+    border: 1px solid;
+}
+
+.table_head {
+    @apply text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400;
+}
+
+.content_row {
+    background-color: #ffffff;
+}
+
+.content_row:hover {
+    background-color: #dedede;
+}

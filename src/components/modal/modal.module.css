@@ -1,0 +1,90 @@
+.modal_header {
+    @apply text-xl font-semibold text-gray-900 dark:text-white;
+    margin-top:-30px;
+}
+
+.field_label_pass {
+    @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white;
+    font-size: 12px;
+    color: black;
+}
+
+.outer_container {
+    @apply relative p-4 w-full max-w-2xl max-h-full;
+}
+
+.content {
+    @apply relative bg-white rounded-lg shadow dark:bg-gray-700;
+}
+
+.header {
+    @apply flex items-center justify-between p-4 md:p-5  rounded-t dark:border-gray-600;
+}
+
+.modal_container {
+    @apply overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full;
+    width: 400px;
+    margin: auto;
+}
+
+.std_input {
+    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+}
+
+.save_button {
+    @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800;
+    border: #7c7c7c 1px solid;
+    width: 49%;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    display: inline;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.close_button {
+
+    @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800;
+    border: #7c7c7c 1px solid;width: 160px;
+    background-color: #ff7a87;
+    /*width: 49%;*/
+    margin-top: 20px;
+    margin-bottom: 0px;
+    display: inline-block;
+    border-radius: 0px 10px 10px 0px;
+
+}
+
+.close_button:hover {
+    background-color: #ff4b5a;
+    cursor: pointer;
+}
+
+.close_modal {
+    @apply sr-only;
+}
+
+.modal_body {
+    @apply p-4 md:p-5 space-y-4;
+}
+
+.main_form {
+    @apply max-w-sm mx-auto;
+}
+
+.field_wrapper {
+    @apply mb-5;
+}
+
+.x_button {
+    @apply text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white;
+    border: 1px solid;
+}
+
+.x_button_img {
+    @apply w-3 h-3;
+}
+
+.id_field_disabled {
+    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+    background-color: #e1dede;
+}
