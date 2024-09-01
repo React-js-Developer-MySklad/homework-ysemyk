@@ -1,12 +1,14 @@
 import * as css from './modal.module.css'
-import React, {FormEvent, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useEditor} from "../../hooks/useEditor/editor.hook";
 import {useCounteragents} from "../../hooks/useCounteragents/counteragents.hook";
+import { Form, Field } from 'react-final-form'
+import {composeValidators, fieldLenghtRestricted, fieldRequired, fieldWithNumbers} from "./modal.validation";
 
 
 export const Modal = () => {
-    const { agentForEditing, modalShown,  closeWindow, editMode } = useEditor();
-    const { addNewAgent, updateExistingAgent, counteragents } = useCounteragents();
+    const {agentForEditing, modalShown, closeWindow, editMode} = useEditor();
+    const {addNewAgent, updateExistingAgent, counteragents} = useCounteragents();
 
 
     let [id, setId] = useState('');
@@ -17,12 +19,12 @@ export const Modal = () => {
     let [mode, setMode] = useState('Создать запись');
 
 
-    useEffect(()=> {
+    useEffect(() => {
         setMode(editMode);
     }, [editMode]);
 
 
-    useEffect(()=> {
+    useEffect(() => {
         setId(editMode == 'Создать запись' ? getLastId().toString() : agentForEditing.id);
         setName(agentForEditing.name);
         setInn(agentForEditing.inn);
@@ -32,20 +34,18 @@ export const Modal = () => {
 
     const getLastId = () => {
         const ids: number[] = counteragents.map((c) => Number(c.id));
-        return ids.length>0 ? Math.max(...ids)+1 : 1;
+        return ids.length > 0 ? Math.max(...ids) + 1 : 1;
     }
 
-    const onFormSubmit = (e: FormEvent) => {
-        let agent = {id: id, name: name, inn: inn, address: address, kpp: kpp};
+    const onSubmitForm = (values: any) => {
+        let agent = {id: values.id, name: values.name, inn: values.inn, address: values.address, kpp: values.kpp};
         if (mode == 'Создать запись') {
             addNewAgent(agent);
         } else {
             updateExistingAgent(agent);
         }
         closeWindow();
-        e.preventDefault();
     }
-
 
     return (
         <div id="modal" tabIndex={-1} aria-hidden="true"
@@ -71,55 +71,91 @@ export const Modal = () => {
                              className={css.modal_header}>
                             {mode}
                         </div>
-                        <form className={css.main_form} onSubmit={onFormSubmit}>
-                            <div className={css.field_wrapper}>
-                                <label className={css.field_label_pass}>ID</label>
-                                <input disabled maxLength={20} type="text" value={id}
-                                       className={css.id_field_disabled}
-                                       required/>
-                            </div>
-                            <div className={css.field_wrapper}>
-                                <label className={css.field_label_pass}>Наименование</label>
-                                <input maxLength={30} type="text" value={name}
-                                       className={css.std_input}
-                                       required
-                                       onChange={event => setName(event.target.value)}
-                                />
-                            </div>
-                            <div className={css.field_wrapper}>
-                                <label className={css.field_label_pass}>ИНН</label>
-                                <input maxLength={11} type="text" value={inn}
-                                       className={css.std_input}
-                                       required
-                                       onChange={event => setInn(event.target.value)}
-                                />
-                            </div>
-                            <div className={css.field_wrapper}>
-                                <label className={css.field_label_pass}>Адрес</label>
-                                <input maxLength={30} type="text" value={address}
-                                       className={css.std_input}
-                                       required
-                                       onChange={event => setAddress(event.target.value)}
-                                />
-                            </div>
-                            <div className={css.field_wrapper}>
-                                <label className={css.field_label_pass}>КПП</label>
-                                <input maxLength={9} type="text" value={kpp}
-                                       className={css.std_input}
-                                       required
-                                       onChange={event => setKpp(event.target.value)}
-                                />
-                            </div>
-                            <button className={css.save_button} type="submit">
-                                Сохранить
-                            </button>
-                            <div  onClick={closeWindow} className={css.close_button}>
-                                Отменить
-                            </div>
-                        </form>
+                        <Form validateOnBlur initialValues={{id: id, name: name, inn: inn, address: address, kpp: kpp}}
+                              onSubmit={onSubmitForm} render={({ handleSubmit, form, submitting, pristine, values })=> (
+                            <form onSubmit={handleSubmit}>
+
+                                <div className={css.field_wrapper}>
+                                    <Field name="id" defaultValue={id}>
+                                        {
+                                            ({input}) => (
+                                                <div>
+                                                    <label className={css.field_label}>ID</label>
+                                                    <input {...input} disabled className={css.id_field_disabled} type="text" name="id" id="id"/>
+                                                </div>
+                                            )
+                                        }
+                                    </Field>
+                                </div>
+
+                                <div className={css.field_wrapper}>
+                                    <Field name="name" validate={fieldRequired}>
+                                        {
+                                            ({input, meta}) => (
+                                                <div>
+                                                    <label className={css.field_label}>Наименование</label>
+                                                    <input {...input} className={css.std_input} type="text"/>
+                                                    {meta.error && meta.touched && <span className={css.error_label}>{meta.error}</span>}
+                                                </div>
+                                            )
+                                        }
+                                    </Field>
+                                </div>
+
+                                <div className={css.field_wrapper}>
+                                    <Field name="inn" validate={composeValidators(fieldRequired, fieldWithNumbers, fieldLenghtRestricted(11))} >
+                                        {
+                                            ({input, meta}) => (
+                                                <div>
+                                                    <label className={css.field_label}>ИНН</label>
+                                                    <input {...input} className={css.std_input} type="text"/>
+                                                    {meta.error && meta.touched && <span className={css.error_label}>{meta.error}</span>}
+                                                </div>
+                                            )
+                                        }
+                                    </Field>
+                                </div>
+
+                                <div className={css.field_wrapper}>
+                                    <Field name="address" validate={fieldRequired}>
+                                        {
+                                            ({input, meta}) => (
+                                                <div>
+                                                    <label className={css.field_label}>Адрес</label>
+                                                    <input {...input} className={css.std_input} type="text"/>
+                                                    {meta.error && meta.touched && <span className={css.error_label}>{meta.error}</span>}
+                                                </div>
+                                            )
+                                        }
+                                    </Field>
+                                </div>
+
+                                <div className={css.field_wrapper}>
+                                    <Field name="kpp" validate={composeValidators(fieldRequired, fieldWithNumbers, fieldLenghtRestricted(9))}>
+                                        {
+                                            ({input, meta}) => (
+                                                <div>
+                                                    <label className={css.field_label}>КПП</label>
+                                                    <input {...input} className={css.std_input} type="text"/>
+                                                    {meta.error && meta.touched && <span className={css.error_label}>{meta.error}</span>}
+                                                </div>
+                                            )
+                                        }
+                                    </Field>
+                                </div>
+
+                                <button className={css.save_button} type="submit">
+                                    Сохранить
+                                </button>
+                                <div  onClick={closeWindow} className={css.close_button}>
+                                    Отменить
+                                </div>
+                            </form>
+                        )}>
+                        </Form>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
